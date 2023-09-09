@@ -1,0 +1,8 @@
+.twin-block {
+    width: 70px;
+    height: 70px;
+}
+
+.twin-block.active {
+    border: 1px solid black;
+}
