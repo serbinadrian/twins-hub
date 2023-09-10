@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import TwinsContext, { TwinData } from "../TwinsContext";
 import TwinBlock from "../TwinBlock";
+import "./style.css";
 
 const TwinsSelector = (): React.ReactElement => {
     const { twinsList, setSelectedTwinId } = useContext(TwinsContext);

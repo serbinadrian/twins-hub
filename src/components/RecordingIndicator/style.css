@@ -1,5 +1,8 @@
 .recording-indicator {
+    border: 1px solid white;
+    text-align: center;
+    font-size: 32px;
+    color: white;
     height: 50px;
-    width: 200px;
-    border: 1px solid black;
+    line-height: 50px;
 }

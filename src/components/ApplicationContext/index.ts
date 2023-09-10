@@ -3,6 +3,8 @@ import Queue from "../../utils/types/Queue";
 import {Notification} from "../../utils/types/Notification";
 
 type ApplicationContextValue = {
+    isLoading: boolean;
+    setIsLoading: React.Dispatch<boolean>;
     notificationQueue: Queue<Notification>;
 };
 

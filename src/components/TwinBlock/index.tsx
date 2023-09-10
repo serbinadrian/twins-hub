@@ -24,6 +24,7 @@ const TwinBlock = ({ twin }: Props): React.ReactElement => {
                 </div>
                 <div className="twin-name-holder">
                     <p className="twin-name">{twin.name}</p>
+                    <p className="twin-name">Twin</p>
                 </div>
             </div>
         </React.Fragment>

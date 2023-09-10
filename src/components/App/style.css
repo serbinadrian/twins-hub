@@ -1,11 +1,18 @@
 :root {
-    --primary-color: #ffffff;
+    --font-family: 'Montserrat, sans-serif';
+    --primary-color: #CACACA;
+    --default-border-color: rgba(141, 141, 141, 0.80);
+    --primary-background: radial-gradient(215.35% 215.33% at 50% 50%, #0F0F0F 17.71%, rgba(36, 36, 36, 0.96) 100%);
+    --active-twin-border-color: rgba(0, 255, 163, 0.80);
+    --active-twin-shadow: 0px 4px 4px 0px rgba(0, 255, 163, 0.10); 
 }
 
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    transition: .3s;
+    font-family: var(--font-family);
 }
 
 html,
@@ -17,4 +24,8 @@ body,
 
 #root {
     overflow: auto;    
+}
+
+.hide {
+    display: none !important;
 }

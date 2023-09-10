@@ -1,8 +1,44 @@
 .twin-block {
-    width: 70px;
-    height: 70px;
+    color: var(--primary-color);
+    width: 120px;
+    margin: 15px;
 }
 
-.twin-block.active {
-    border: 1px solid black;
+.twin-block:hover {
+    cursor: pointer;
+}
+
+.twin-block:hover .twin-image-holder{
+    transform: scale(1.01);
+}
+
+.twin-block.active .twin-image-holder{
+    border-color: var(--active-twin-border-color);
+    box-shadow: var(--active-twin-shadow);
+}
+
+.twin-image-holder {
+    aspect-ratio: 1/1;
+    border-width: 3px;
+    border-style: solid;
+    border-color: var(--default-border-color);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.twin-image-holder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.twin-name-holder {
+    text-align: center;
+}
+
+.twin-name {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700; 
 }
