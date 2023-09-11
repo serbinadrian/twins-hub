@@ -24,8 +24,11 @@ export const useWebSocketHook = () => {
     };
 
     const disconnect = (): void => {
+        if(socketInstance === {} as WebSocket || !socketInstance){
+            return;
+        }
         setCurrentAddress("");
-        socketInstance.close();
+        socketInstance?.close();
         setSocketInstance({} as WebSocket);
     };
 
@@ -63,7 +66,10 @@ export const useWebSocketHook = () => {
     };
 
     const send = (message: string): void => {
-        socketInstance.send(message);
+        if(socketInstance === {} as WebSocket || !socketInstance){
+            return;
+        }
+        socketInstance?.send(message);
     };
 
     return {

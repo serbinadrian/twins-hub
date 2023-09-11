@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import RecordButton from "../RecordButton";
 import RecordingIndicator from "../RecordingIndicator";
 import ApplicationContext from "../ApplicationContext";
+interface Props {
+    setRecord: React.Dispatch<string>
+}
 
 const constraints = {
     audio: true,
@@ -14,52 +17,11 @@ let audioChunks: any[] = [];
 let speechData: string | ArrayBuffer | null;
 // let lastSpeechURL: string;
 
-let ws: any;
-
-
-const Recorder = (): React.ReactElement => {
+const Recorder = ({setRecord}: Props): React.ReactElement => {
     const { setIsLoading } = useContext(ApplicationContext);
     const [isRecording, setIsRecording] = useState<boolean>(false);
     // eslint-disable-next-line
-    const [lastSpeechURL, setLastSpeechURL] = useState<string>("");
-
-    const checkResponse = async () => {
-        const url = process.env.REACT_APP_NAPOLEON_HILL_SOCKET as string;
-        console.log(url);
-        
-        ws = new WebSocket(url);
-    
-        ws.onopen = () => {
-            console.log("opened");
-        }
-    
-        ws.onmessage = (e: any) => {
-            const data = JSON.parse(e.data);
-            // console.log(data);
-    
-            const snd = new Audio("data:audio/wav;base64," + data.response);
-            setIsLoading(false);
-            snd.play();
-        }
-    
-        const message = {
-            client: "web",
-            username: "web_user",
-            //request_type: "text",
-            request_type: "speech",
-            //response_type: "speech",
-            response_type: "speech",
-            speech: speechData,
-            // text: "What is your name?"
-            is_search_enabled: false,
-        }
-        
-        const send = () => {
-            ws.send(JSON.stringify(message));
-        }
-    
-        setTimeout(send, 500);
-    }
+    // const [lastSpeechURL, setLastSpeechURL] = useState<string>("");
 
     const startRecording = (): void => {
         setIsRecording(true);
@@ -92,9 +54,10 @@ const Recorder = (): React.ReactElement => {
         reader.onloadend = (): void => {
             const data: string = reader.result as string;
             speechData = data.substring(data.indexOf(',') + 1);
-            console.log(speechData);
+            setRecord(speechData);
+            // console.log(speechData);
             setIsLoading(true);
-            checkResponse();
+            // checkResponse();
         };
     };
 
@@ -108,7 +71,7 @@ const Recorder = (): React.ReactElement => {
                 // type: "audio/wav",
             });
             audioChunks = [];
-            setLastSpeechURL(URL.createObjectURL(blob));
+            // setLastSpeechURL(URL.createObjectURL(blob));
             // lastSpeechURL = URL.createObjectURL(blob);
             const reader: FileReader = new FileReader();
             runRecorderFileReader(reader, blob);
