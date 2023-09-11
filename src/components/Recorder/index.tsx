@@ -51,6 +51,7 @@ const Recorder = (): React.ReactElement => {
             response_type: "speech",
             speech: speechData,
             // text: "What is your name?"
+            is_search_enabled: false,
         }
         
         const send = () => {

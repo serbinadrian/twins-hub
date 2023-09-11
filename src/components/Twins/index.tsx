@@ -9,6 +9,7 @@ import "./style.css";
 import TwinsSelector from "../TwinsSelector";
 const Twins = (): React.ReactElement => {
     const [selectedTwinId, setSelectedTwinId] = useState<TwinIdentifier>(null);
+    const [speech, setSpeech] = useState<string>("");
     const contextValue: TwinContextValue = {
         selectedTwinId,
         setSelectedTwinId,
