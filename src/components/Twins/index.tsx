@@ -35,6 +35,10 @@ const Twins = (): React.ReactElement => {
 
         ws = await new WebSocket(url);
 
+        const closeConnection = () => {
+            ws.close();
+        }
+
         ws.onerror = (error) => {
             setIsLoading(false);
             console.error(error);
@@ -46,6 +50,7 @@ const Twins = (): React.ReactElement => {
 
             const snd = new Audio("data:audio/wav;base64," + data.response);
             setIsLoading(false);
+            closeConnection();
             snd.play();
         };
 
