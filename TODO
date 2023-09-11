@@ -1,4 +1,5 @@
 /*TODO 
+    catch when audio finished
     [half] adaptive design
     photos and names and everything else
     set unavailable if cannot use
@@ -15,7 +16,6 @@
     fonts
     bot reconnect on switch
     .env urls
-    
 
     ask for title
     ask for output types

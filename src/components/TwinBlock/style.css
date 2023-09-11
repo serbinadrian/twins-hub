@@ -45,4 +45,6 @@
 
 .disabled {
     filter: grayscale(90%);
+    pointer-events: none;
+    opacity: 30%;
 }

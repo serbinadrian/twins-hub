@@ -14,10 +14,11 @@ import { windowSizes } from "../../utils/constants";
 function App(): React.ReactElement {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
     const notificationQueue = new Queue<Notification>();
     const {windowWidth} = useResize();
     const isMobile = windowWidth < windowSizes.REGULAR;
-    const applicationContextValue: ApplicationContextValue = {notificationQueue, isLoading, setIsLoading, isMobile};
+    const applicationContextValue: ApplicationContextValue = {notificationQueue, isLoading, setIsLoading, isMobile, isAudioPlaying, setIsAudioPlaying};
     
     return (
         <React.Fragment>

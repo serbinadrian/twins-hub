@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import "./style.css";
 import ApplicationContext from "../ApplicationContext";
+// const Loader = require("../../assets/images/loader.gif");
 
 const LoadingIndicator = (): React.ReactElement => {
     const { isLoading } = useContext(ApplicationContext);

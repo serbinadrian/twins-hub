@@ -4,6 +4,8 @@ import {Notification} from "../../utils/types/Notification";
 
 type ApplicationContextValue = {
     isLoading: boolean;
+    isAudioPlaying: boolean;
+    setIsAudioPlaying: React.Dispatch<boolean>;
     setIsLoading: React.Dispatch<boolean>;
     notificationQueue: Queue<Notification>;
     isMobile: Boolean;

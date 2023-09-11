@@ -2,4 +2,9 @@
     border: none;
     background: none;
     user-select: none;
+    width: 300px;
+}
+
+.record-button img {
+    width: 100%;
 }

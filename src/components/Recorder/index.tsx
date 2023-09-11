@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import RecordButton from "../RecordButton";
 import RecordingIndicator from "../RecordingIndicator";
+import ApplicationContext from "../ApplicationContext";
 
 const constraints = {
     audio: true,
@@ -15,46 +16,49 @@ let speechData: string | ArrayBuffer | null;
 
 let ws: any;
 
-const checkResponse = async () => {
-    const url = process.env.REACT_APP_NAPOLEON_HILL_SOCKET as string;
-    console.log(url);
-    
-    ws = new WebSocket(url);
-
-    ws.onopen = () => {
-        console.log("opened");
-    }
-
-    ws.onmessage = (e: any) => {
-        const data = JSON.parse(e.data);
-        console.log(data);
-
-        const snd = new Audio("data:audio/wav;base64," + data.response);
-        snd.play();
-    }
-
-    const message = {
-        client: "web",
-        username: "web_user",
-        //request_type: "text",
-        request_type: "speech",
-        //response_type: "speech",
-        response_type: "speech",
-        speech: speechData,
-        // text: "What is your name?"
-    }
-    
-    const send = () => {
-        ws.send(JSON.stringify(message));
-    }
-
-    setTimeout(send, 500);
-}
 
 const Recorder = (): React.ReactElement => {
+    const { setIsLoading } = useContext(ApplicationContext);
     const [isRecording, setIsRecording] = useState<boolean>(false);
     // eslint-disable-next-line
     const [lastSpeechURL, setLastSpeechURL] = useState<string>("");
+
+    const checkResponse = async () => {
+        const url = process.env.REACT_APP_NAPOLEON_HILL_SOCKET as string;
+        console.log(url);
+        
+        ws = new WebSocket(url);
+    
+        ws.onopen = () => {
+            console.log("opened");
+        }
+    
+        ws.onmessage = (e: any) => {
+            const data = JSON.parse(e.data);
+            // console.log(data);
+    
+            const snd = new Audio("data:audio/wav;base64," + data.response);
+            setIsLoading(false);
+            snd.play();
+        }
+    
+        const message = {
+            client: "web",
+            username: "web_user",
+            //request_type: "text",
+            request_type: "speech",
+            //response_type: "speech",
+            response_type: "speech",
+            speech: speechData,
+            // text: "What is your name?"
+        }
+        
+        const send = () => {
+            ws.send(JSON.stringify(message));
+        }
+    
+        setTimeout(send, 500);
+    }
 
     const startRecording = (): void => {
         setIsRecording(true);
@@ -88,6 +92,7 @@ const Recorder = (): React.ReactElement => {
             const data: string = reader.result as string;
             speechData = data.substring(data.indexOf(',') + 1);
             console.log(speechData);
+            setIsLoading(true);
             checkResponse();
         };
     };
