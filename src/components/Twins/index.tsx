@@ -33,11 +33,7 @@ const Twins = (): React.ReactElement => {
         const url = currentTwin?.socketAddress as string;
         console.log(url);
 
-        ws = new WebSocket(url);
-
-        ws.onopen = () => {
-            console.log("opened");
-        };
+        ws = await new WebSocket(url);
 
         ws.onerror = (error) => {
             setIsLoading(false);
@@ -69,7 +65,12 @@ const Twins = (): React.ReactElement => {
             ws.send(JSON.stringify(message));
         };
 
-        setTimeout(send, 500);
+        ws.onopen = () => {
+            console.log("opened");
+            send();
+        };
+
+        // setTimeout(send, 500);
     };
 
     useEffect(() => {
