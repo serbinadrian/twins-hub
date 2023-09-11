@@ -1,10 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import TwinsContext, { TwinData } from "../TwinsContext";
+import ApplicationContext from "../ApplicationContext";
 import TwinBlock from "../TwinBlock";
 import "./style.css";
 
 const TwinsSelector = (): React.ReactElement => {
     const { twinsList, setSelectedTwinId } = useContext(TwinsContext);
+    const { isMobile } = useContext(ApplicationContext);
 
     const TwinsList = (): React.ReactElement => {
         return (
@@ -16,13 +18,15 @@ const TwinsSelector = (): React.ReactElement => {
         );
     };
 
+    const className = `twins-selector ${isMobile && "mobile"}`;    
+
     useEffect(() => {
         setSelectedTwinId(twinsList[0].id);
     }, [setSelectedTwinId, twinsList]);
 
     return (
         <React.Fragment>
-            <div className="twins-selector">
+            <div className={className}>
                 <TwinsList />
             </div>
         </React.Fragment>

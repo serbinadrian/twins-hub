@@ -16,14 +16,21 @@ let speechData: string | ArrayBuffer | null;
 let ws: any;
 
 const checkResponse = async () => {
-    ws = new WebSocket("ws://80.79.245.160:4488");
+    const url = process.env.REACT_APP_NAPOLEON_HILL_SOCKET as string;
+    console.log(url);
+    
+    ws = new WebSocket(url);
 
     ws.onopen = () => {
         console.log("opened");
     }
 
     ws.onmessage = (e: any) => {
-        console.log(e);
+        const data = JSON.parse(e.data);
+        console.log(data);
+
+        const snd = new Audio("data:audio/wav;base64," + data.response);
+        snd.play();
     }
 
     const message = {
@@ -32,7 +39,7 @@ const checkResponse = async () => {
         //request_type: "text",
         request_type: "speech",
         //response_type: "speech",
-        response_type: "text",
+        response_type: "speech",
         speech: speechData,
         // text: "What is your name?"
     }
@@ -41,11 +48,12 @@ const checkResponse = async () => {
         ws.send(JSON.stringify(message));
     }
 
-    setTimeout(send, 5000);
+    setTimeout(send, 500);
 }
 
 const Recorder = (): React.ReactElement => {
     const [isRecording, setIsRecording] = useState<boolean>(false);
+    // eslint-disable-next-line
     const [lastSpeechURL, setLastSpeechURL] = useState<string>("");
 
     const startRecording = (): void => {
@@ -117,8 +125,9 @@ const Recorder = (): React.ReactElement => {
     };
 
     useEffect(() => {
-        if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
+        if (!(navigator?.mediaDevices && navigator.mediaDevices?.getUserMedia)) {
             console.error("getUserMedia not supported on your browser!");
+            return;
             //TODO create error and block interface
         }
         navigator.mediaDevices
@@ -144,7 +153,6 @@ const Recorder = (): React.ReactElement => {
                     onClick={toggleRecording}
                 />
                 <RecordingIndicator isRecording={isRecording} />
-                <audio src={lastSpeechURL} controls />
             </div>
         </React.Fragment>
     );

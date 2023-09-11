@@ -1,5 +1,5 @@
 export const enum windowSizes {
-    SMALL = 1,
-    REGULAR = 2,
-    USUAL = 3,
+    SMALL = 450,
+    REGULAR = 1000,
+    USUAL = 1280,
 }

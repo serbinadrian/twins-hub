@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+    import React, { useContext, useEffect, useState } from "react";
 import ApplicationContext from "../ApplicationContext";
 import { Notification } from "../../utils/types/Notification";
 import NotificationBox from "../NotificationBox";
+import "./style.css";
 
 const StatusBar = (): React.ReactElement => {
     const [currentNotification, setCurrentNotification] =

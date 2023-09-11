@@ -1,0 +1,23 @@
+/*TODO 
+    [half] adaptive design
+    photos and names and everything else
+    set unavailable if cannot use
+    audio recording show waves
+    error handling
+    [] error styling
+    response parsing text
+    response parsing audio
+    response output text
+    response output audio
+    animation for loader
+    websocket hook
+    [done] resize hook
+    fonts
+    bot reconnect on switch
+    .env urls
+    
+
+    ask for title
+    ask for output types
+    ask for hows bot speaking
+*/

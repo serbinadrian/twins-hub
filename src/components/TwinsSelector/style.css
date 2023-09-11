@@ -2,3 +2,11 @@
     position: absolute;
     right: 50px;
 }
+
+.twins-selector.mobile {
+    display: flex;
+    justify-content: center;
+    top: 30px;
+    left: 0;
+    right: 0;
+}

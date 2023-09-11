@@ -9,7 +9,7 @@ const RecordingIndicator = ({isRecording}: Props): React.ReactElement => {
     return (
         <React.Fragment>
             <div className="recording-indicator">
-                {isRecording ? "recording" : ""}
+                {isRecording ? "Recording" : ""}
             </div>
         </React.Fragment>
     );

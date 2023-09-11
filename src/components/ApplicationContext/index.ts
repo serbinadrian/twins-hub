@@ -6,6 +6,7 @@ type ApplicationContextValue = {
     isLoading: boolean;
     setIsLoading: React.Dispatch<boolean>;
     notificationQueue: Queue<Notification>;
+    isMobile: Boolean;
 };
 
 const ApplicationContext = createContext<ApplicationContextValue>(

@@ -5,6 +5,8 @@ type TwinIdentifier = string | null;
 type TwinData = {
     id: TwinIdentifier;
     name: string;
+    image: any;
+    isDisabled?: boolean;
     socketAddress: string | undefined;
 };
 

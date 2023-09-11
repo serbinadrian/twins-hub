@@ -11,16 +11,18 @@ const TwinBlock = ({ twin }: Props): React.ReactElement => {
 
     const className: string = `twin-block ${
         selectedTwinId === twin.id && "active"
+    }  ${
+        twin.isDisabled && "disabled"
     }`;
 
     return (
         <React.Fragment>
             <div
                 className={className}
-                onClick={() => setSelectedTwinId(twin.id)}
+                onClick={() => twin.isDisabled ? null : setSelectedTwinId(twin.id)}
             >
                 <div className="twin-image-holder">
-                    <img src="" alt={twin.name} />
+                    <img src={twin.image} alt={twin.name} />
                 </div>
                 <div className="twin-name-holder">
                     <p className="twin-name">{twin.name}</p>

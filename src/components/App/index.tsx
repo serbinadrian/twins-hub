@@ -8,13 +8,17 @@ import ApplicationContext, {
 import Queue from "../../utils/types/Queue";
 import { Notification } from "../../utils/types/Notification";
 import LoadingIndicator from "../LoadingIndicator";
+import { useResize } from "../../hooks/ResizeHook";
+import { windowSizes } from "../../utils/constants";
 
 function App(): React.ReactElement {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const notificationQueue = new Queue<Notification>();
-    const applicationContextValue: ApplicationContextValue = {notificationQueue, isLoading, setIsLoading};
-
+    const {windowWidth} = useResize();
+    const isMobile = windowWidth < windowSizes.REGULAR;
+    const applicationContextValue: ApplicationContextValue = {notificationQueue, isLoading, setIsLoading, isMobile};
+    
     return (
         <React.Fragment>
             <ApplicationContext.Provider value={applicationContextValue}>
