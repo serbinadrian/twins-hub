@@ -11,9 +11,8 @@ type TwinData = {
 };
 
 type TwinContextValue = {
-    selectedTwinId: TwinIdentifier;
-    setSelectedTwinId: React.Dispatch<TwinIdentifier>;
-    twinsList: TwinData[];
+    selectedTwin: TwinData;
+    setSelectedTwin: React.Dispatch<TwinData>;
 };
 
 const TwinsContext = createContext<TwinContextValue>({} as TwinContextValue);

@@ -1,0 +1,8 @@
+.recorder .twin-block {
+    width: 200px;
+    pointer-events: none;
+}
+
+.recorder .twin-block .twin-name-holder {
+    display: none;
+}

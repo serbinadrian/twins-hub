@@ -2,8 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import RecordButton from "../RecordButton";
 import RecordingIndicator from "../RecordingIndicator";
 import ApplicationContext from "../ApplicationContext";
+import TwinBlock from "../TwinBlock";
+import TwinsContext from "../TwinsContext";
+import "./style.css";
 interface Props {
-    setRecord: React.Dispatch<string>
+    setRecord: React.Dispatch<string>;
 }
 
 const constraints = {
@@ -17,8 +20,9 @@ let audioChunks: any[] = [];
 let speechData: string | ArrayBuffer | null;
 // let lastSpeechURL: string;
 
-const Recorder = ({setRecord}: Props): React.ReactElement => {
-    const { setIsLoading } = useContext(ApplicationContext);
+const Recorder = ({ setRecord }: Props): React.ReactElement => {
+    const { setIsLoading, isAudioPlaying } = useContext(ApplicationContext);
+    const { selectedTwin } = useContext(TwinsContext);
     const [isRecording, setIsRecording] = useState<boolean>(false);
     // eslint-disable-next-line
     // const [lastSpeechURL, setLastSpeechURL] = useState<string>("");
@@ -53,7 +57,7 @@ const Recorder = ({setRecord}: Props): React.ReactElement => {
         reader.readAsDataURL(blob);
         reader.onloadend = (): void => {
             const data: string = reader.result as string;
-            speechData = data.substring(data.indexOf(',') + 1);
+            speechData = data.substring(data.indexOf(",") + 1);
             setRecord(speechData);
             // console.log(speechData);
             setIsLoading(true);
@@ -94,7 +98,9 @@ const Recorder = ({setRecord}: Props): React.ReactElement => {
     };
 
     useEffect(() => {
-        if (!(navigator?.mediaDevices && navigator.mediaDevices?.getUserMedia)) {
+        if (
+            !(navigator?.mediaDevices && navigator.mediaDevices?.getUserMedia)
+        ) {
             console.error("getUserMedia not supported on your browser!");
             return;
             //TODO create error and block interface
@@ -117,10 +123,15 @@ const Recorder = ({setRecord}: Props): React.ReactElement => {
     return (
         <React.Fragment>
             <div className="recorder">
-                <RecordButton
-                    isRecording={isRecording}
-                    onClick={toggleRecording}
-                />
+                {!isAudioPlaying ? (
+                    <RecordButton
+                        isRecording={isRecording}
+                        onClick={toggleRecording}
+                    />
+                ) : (
+                    // TODO this is not a recorder
+                    <TwinBlock twin={selectedTwin} />
+                )}
                 <RecordingIndicator isRecording={isRecording} />
             </div>
         </React.Fragment>

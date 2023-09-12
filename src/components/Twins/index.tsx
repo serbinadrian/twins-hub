@@ -1,9 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Recorder from "../Recorder";
-import TwinsContext, {
-    TwinContextValue,
-    TwinIdentifier,
-} from "../TwinsContext";
+import TwinsContext, { TwinContextValue, TwinData } from "../TwinsContext";
 import { twinsList } from "./meta";
 import "./style.css";
 import TwinsSelector from "../TwinsSelector";
@@ -12,46 +9,93 @@ import ApplicationContext from "../ApplicationContext";
 let ws: WebSocket;
 //#ws://80.79.245.160:4488
 const Twins = (): React.ReactElement => {
-    const [selectedTwinId, setSelectedTwinId] = useState<TwinIdentifier>(
-        twinsList[0].id
-    );
+    const { setIsAudioPlaying } = useContext(ApplicationContext);
+    const [selectedTwin, setSelectedTwin] = useState<TwinData>(twinsList[0]);
     const [speech, setSpeech] = useState<string>("");
     const { setIsLoading } = useContext(ApplicationContext);
-    const currentTwin = twinsList.find((twin) => twin.id === selectedTwinId);
     const contextValue: TwinContextValue = {
-        selectedTwinId,
-        setSelectedTwinId,
-        twinsList,
+        selectedTwin,
+        setSelectedTwin,
+    };
+
+    const b64toBlob = (b64Data: string, contentType = "", sliceSize = 512) => {
+        const byteCharacters = atob(b64Data);
+        const byteArrays = [];
+
+        for (
+            let offset = 0;
+            offset < byteCharacters.length;
+            offset += sliceSize
+        ) {
+            const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+
+        const blob = new Blob(byteArrays, { type: contentType });
+        return blob;
     };
 
     const checkResponse = async () => {
-        if(speech.length < 1) {
+        if (speech.length < 1) {
             return;
         }
 
         setIsLoading(true);
-        const url = currentTwin?.socketAddress as string;
+        const url = selectedTwin?.socketAddress as string;
         console.log(url);
 
         ws = await new WebSocket(url);
 
         const closeConnection = () => {
             ws.close();
-        }
+        };
+
+        ws.onclose = () => {
+            console.log("closed");
+        };
 
         ws.onerror = (error) => {
             setIsLoading(false);
+            setIsAudioPlaying(false);
             console.error(error);
         };
 
         ws.onmessage = (e: any) => {
-            const data = JSON.parse(e.data);
-            // console.log(data);
-
-            const snd = new Audio("data:audio/wav;base64," + data.response);
-            setIsLoading(false);
-            closeConnection();
-            snd.play();
+            try {
+                const data = JSON.parse(e.data);
+                //console.log(data);
+                if (data?.msg && data?.event === "error") {
+                    throw new Error(
+                        "Provided data is not an audio. Given error message: " +
+                            data?.msg
+                    );
+                }
+                const blob = b64toBlob(data.response);
+                const url = URL.createObjectURL(blob);
+                // const snd = new Audio("data:audio/wav;base64," + data.response);
+                const snd = new Audio(url);
+                setIsLoading(false);
+                closeConnection();
+                snd.addEventListener("ended", () => {
+                    setIsAudioPlaying(false);
+                });
+                snd.addEventListener("play", () => {
+                    setIsAudioPlaying(true);
+                });
+                snd.play();
+            } catch (error) {
+                closeConnection();
+                setIsAudioPlaying(false);
+                setIsLoading(false);
+                console.error(error);
+            }
         };
 
         const message = {

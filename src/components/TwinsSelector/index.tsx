@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
-import TwinsContext, { TwinData } from "../TwinsContext";
+import { TwinData } from "../TwinsContext";
 import ApplicationContext from "../ApplicationContext";
 import TwinBlock from "../TwinBlock";
+import { twinsList } from "../Twins/meta";
 import "./style.css";
 
 const TwinsSelector = (): React.ReactElement => {
-    const { twinsList } = useContext(TwinsContext);
     const { isMobile } = useContext(ApplicationContext);
 
     const TwinsList = (): React.ReactElement => {

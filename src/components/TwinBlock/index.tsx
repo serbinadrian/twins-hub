@@ -1,25 +1,29 @@
 import React, { useContext } from "react";
 import TwinsContext, { TwinData } from "../TwinsContext";
 import "./style.css";
+import ApplicationContext from "../ApplicationContext";
 
 interface Props {
     twin: TwinData;
 }
 
 const TwinBlock = ({ twin }: Props): React.ReactElement => {
-    const { selectedTwinId, setSelectedTwinId } = useContext(TwinsContext);
+    const { selectedTwin, setSelectedTwin } = useContext(TwinsContext);
+    const { isAudioPlaying } = useContext(ApplicationContext);
 
     const className: string = `twin-block ${
-        selectedTwinId === twin.id && "active"
-    }  ${
-        twin.isDisabled && "disabled"
-    }`;
+        selectedTwin.id === twin.id && "active"
+    }  ${twin.isDisabled && "disabled"}`;
 
     return (
         <React.Fragment>
             <div
                 className={className}
-                onClick={() => twin.isDisabled ? null : setSelectedTwinId(twin.id)}
+                onClick={() =>
+                    twin.isDisabled || isAudioPlaying
+                        ? null
+                        : setSelectedTwin(twin)
+                }
             >
                 <div className="twin-image-holder">
                     <img src={twin.image} alt={twin.name} />
