@@ -8,6 +8,12 @@ In the project directory, you can run:
 
 ### `npm start`
 
+Before run create and fill the `.env` file with following data
+REACT_APP_NAPOLEON_HILL_SOCKET = [wss://url]
+REACT_APP_PHILOSOPHER_SOCKET = [wss://url]
+REACT_APP_PHILIP_DICK_SOCKET = [wss://url]
+REACT_APP_BEN_GOERTZEL_SOCKET = [wss://url]
+
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
